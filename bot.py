@@ -152,7 +152,7 @@ async def weather(interaction: discord.Interaction, city: str):
             # Get Weather in City
             weather_url = "https://api.open-meteo.com/v1/forecast"
             params = {"latitude": lat, "longitude": lon, "current": "temperature_2m"}
-            async with session.get(weather.url, params={"name": city, "count": 1}) as resp:
+            async with session.get(weather_url, params=params) as resp:
                 weather_data = await resp.json()
 
                 temp = weather_data["current"]["temperature_2m"]
