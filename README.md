@@ -6,21 +6,21 @@ A Discord bot for creating and managing a personal to-do list, with persistent s
 
 ## Features
 
-- `/todo_add` — Add a task to your list
-- `/todo_list` — Show all of your tasks with their IDs and completion status
-- `/mark_done` — Mark a task as completed by its ID
-- `/delete_task` — Delete a task from the list by its ID
-- `/ping` — Health check to confirm the bot is online
+- `/todo_add` - Add a task to your list
+- `/todo_list` - Show all of your tasks with their IDs and completion status
+- `/mark_done` - Mark a task as completed by its ID
+- `/delete_task` - Delete a task from the list by its ID
+- `/ping` - Health check to confirm the bot is online
 
-All replies are ephemeral — only the user who ran the command sees them.
+All replies are ephemeral(only the user who ran the command sees them).
 
 ## Tech Stack
 
-- **Python 3.14** — main language
-- **discord.py 2.7** — Discord API wrapper and slash command framework
-- **aiosqlite 0.22** — async SQLite driver for database access
-- **SQLite** — local database storage (single file, no server required)
-- **python-dotenv** — loads secrets from a `.env` file
+- **Python 3.14** - main language
+- **discord.py 2.7** - Discord API wrapper and slash command framework
+- **aiosqlite 0.22** - async SQLite driver for database access
+- **SQLite** - local database storage (single file, no server required)
+- **python-dotenv** - loads secrets from a `.env` file
 
 ## Setup
 
