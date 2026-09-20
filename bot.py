@@ -107,7 +107,7 @@ async def remind(interaction:discord.Interaction, message: str, time: str):
     # Save and confirm
     reminder_id = await add_reminder(str(interaction.user.id), message, remind_at)
     await interaction.response.send_message(
-        f"⏰ Reminder set: **{message}** for **{amount}{time}** from now",
+        f"⏰ Reminder set: **{message}** for **{time}** from now",
         ephemeral=True
     )
 
