@@ -3,8 +3,9 @@ import discord
 from discord import app_commands
 from discord.ext import commands
 from dotenv import load_dotenv
-from db import init_db, add_todo, list_todos, complete_todo, delete_todo, add_reminder
+from db import init_db, add_todo, list_todos, complete_todo, delete_todo, add_reminder, get_due_reminders, delete_reminder
 from datetime import datetime, timedelta
+from discord.ext import tasks
 
 load_dotenv()
 TOKEN = os.getenv("DISCORD_TOKEN")
@@ -18,6 +19,8 @@ bot = commands.Bot(command_prefix="!", intents = intents)
 async def on_ready():
     await init_db()
     await bot.tree.sync()
+    if not reminder_loop.is_running():
+        reminder_loop.start()
     print(f"{bot.user} online...")
 
 # Ping
@@ -110,5 +113,18 @@ async def remind(interaction:discord.Interaction, message: str, time: str):
         f"⏰ Reminder set: **{message}** for **{time}** from now",
         ephemeral=True
     )
+
+@tasks.loop(seconds = 30)
+async def reminder_loop():
+    due = await get_due_reminders()
+    for reminder_id, user_id, message in due:
+        try:
+            user = await bot.fetch_user(int(user_id))
+            await user.send(f"⏰ Reminder: {message}")
+        except Exception as e:
+            print(f"Failed to message {user_id}: {e}")
+            
+        await delete_reminder(reminder_id)
+
 
 bot.run(TOKEN)
