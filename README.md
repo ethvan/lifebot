@@ -11,6 +11,7 @@ A Discord bot for creating and managing a personal to-do list, with persistent s
 - `/mark_done` - Mark a task as completed by its ID
 - `/delete_task` - Delete a task from the list by its ID
 - `/ping` - Health check to confirm the bot is online
+- `/remind` — Set a reminder (`/remind message:take a break time:30m`); the bot DMs you when time is up
 
 All replies are ephemeral(only the user who ran the command sees them).
 
@@ -67,10 +68,10 @@ All replies are ephemeral(only the user who ran the command sees them).
 
 ## Future Improvements
 
-- Add a `/remind` command with background scheduling using `discord.ext.tasks`
+✅ Add a `/remind` command with background scheduling using `discord.ext.tasks`
 - Add habit tracking with daily streaks
 - Migrate slash command names to command groups so `/todo add` uses a space instead of an underscore
-- Deploy to Railway for 24/7 uptime
+✅ Deploy to Railway for 24/7 uptime
 - Add tests for the database layer
 
 ## License
