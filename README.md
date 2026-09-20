@@ -65,12 +65,6 @@ All replies are ephemeral — only the user who ran the command sees them.
 
     You should see `LifeBot#8795 online...`. Then type `/todo_add` in Discord to test.
 
-## What I Learned
-
-- **SQL in practice** — I had taken a databases course, but this was my first time using SQL in a real project. Designing a schema, writing `SELECT`/`INSERT`/`UPDATE`/`DELETE` queries, and handling edge cases (like "task not found" vs. "already done") made the concepts concrete.
-- **Async Python** — Using `async`/`await` throughout the bot taught me why asynchronous code matters for network I/O and how to structure a program that stays responsive while waiting on external services.
-- **Discord's API model** — Slash commands, interaction responses, ephemeral replies, and the WebSocket event loop all work together in a specific way.
-
 ## Future Improvements
 
 - Add a `/remind` command with background scheduling using `discord.ext.tasks`
