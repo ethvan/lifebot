@@ -11,7 +11,8 @@ A Discord bot for creating and managing a personal to-do list, with persistent s
 - `/mark_done` - Mark a task as completed by its ID
 - `/delete_task` - Delete a task from the list by its ID
 - `/ping` - Health check to confirm the bot is online
-- `/remind` — Set a reminder (`/remind message:take a break time:30m`); the bot DMs you when time is up
+- `/remind` - Set a reminder (`/remind message:take a break time:30m`); the bot DMs you when time is up
+- `/weather` - Tells you the current weather for a city
 
 All replies are ephemeral(only the user who ran the command sees them).
 
