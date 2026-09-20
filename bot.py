@@ -68,7 +68,7 @@ async def mark_done(interaction: discord.Interaction, todo_id: int):
 async def delete_task(interaction:discord.Interaction, todo_id: int):
     task = await delete_todo(str(interaction.user.id), todo_id)
     if task is None:
-        await interaction.response.send_message(f"❌ No task found with ID #{todo_id}!")
+        await interaction.response.send_message(f"❌ No task found with ID #{todo_id}!", ephemeral=True)
     else:
         await interaction.response.send_message(f"🗑️ Deleted Task #{todo_id}: {task}!", ephemeral = True)
 
