@@ -138,7 +138,7 @@ async def weather(interaction: discord.Interaction, city: str):
         async with aiohttp.ClientSession() as session:
             # Geocode City
             geo_url = "https://geocoding-api.open-meteo.com/v1/search"
-            async with session.get(geo.url, params={"name": city, "count": 1}) as resp:
+            async with session.get(geo_url, params={"name": city, "count": 1}) as resp:
                 geo_data = await resp.json()
 
                 if "results" not in geo_data:
