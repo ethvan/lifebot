@@ -6,21 +6,21 @@ A Discord bot for creating and managing a personal to-do list, with persistent s
 
 ## Features
 
-- `/todo_add` — Add a task to your list
-- `/todo_list` — Show all of your tasks with their IDs and completion status
-- `/mark_done` — Mark a task as completed by its ID
-- `/delete_task` — Delete a task from the list by its ID
-- `/ping` — Health check to confirm the bot is online
+- `/todo_add` - Add a task to your list
+- `/todo_list` - Show all of your tasks with their IDs and completion status
+- `/mark_done` - Mark a task as completed by its ID
+- `/delete_task` - Delete a task from the list by its ID
+- `/ping` - Health check to confirm the bot is online
 
-All replies are ephemeral — only the user who ran the command sees them.
+All replies are ephemeral(only the user who ran the command sees them).
 
 ## Tech Stack
 
-- **Python 3.14** — main language
-- **discord.py 2.7** — Discord API wrapper and slash command framework
-- **aiosqlite 0.22** — async SQLite driver for database access
-- **SQLite** — local database storage (single file, no server required)
-- **python-dotenv** — loads secrets from a `.env` file
+- **Python 3.14** - main language
+- **discord.py 2.7** - Discord API wrapper and slash command framework
+- **aiosqlite 0.22** - async SQLite driver for database access
+- **SQLite** - local database storage (single file, no server required)
+- **python-dotenv** - loads secrets from a `.env` file
 
 ## Setup
 
@@ -64,12 +64,6 @@ All replies are ephemeral — only the user who ran the command sees them.
     ```
 
     You should see `LifeBot#8795 online...`. Then type `/todo_add` in Discord to test.
-
-## What I Learned
-
-- **SQL in practice** — I had taken a databases course, but this was my first time using SQL in a real project. Designing a schema, writing `SELECT`/`INSERT`/`UPDATE`/`DELETE` queries, and handling edge cases (like "task not found" vs. "already done") made the concepts concrete.
-- **Async Python** — Using `async`/`await` throughout the bot taught me why asynchronous code matters for network I/O and how to structure a program that stays responsive while waiting on external services.
-- **Discord's API model** — Slash commands, interaction responses, ephemeral replies, and the WebSocket event loop all work together in a specific way.
 
 ## Future Improvements
 
