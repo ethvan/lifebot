@@ -3,7 +3,8 @@ import discord
 from discord import app_commands
 from discord.ext import commands
 from dotenv import load_dotenv
-from db import init_db, add_todo, list_todos, complete_todo, delete_todo
+from db import init_db, add_todo, list_todos, complete_todo, delete_todo, add_reminder
+from datetime import datetime, timedelta
 
 load_dotenv()
 TOKEN = os.getenv("DISCORD_TOKEN")
@@ -71,5 +72,43 @@ async def delete_task(interaction:discord.Interaction, todo_id: int):
         await interaction.response.send_message(f"❌ No task found with ID #{todo_id}!", ephemeral=True)
     else:
         await interaction.response.send_message(f"🗑️ Deleted Task #{todo_id}: {task}!", ephemeral = True)
+
+# Sets a Reminder
+@bot.tree.command(name="remind", description = "⏰ Set a reminder")
+@app_commands.describe(
+    message = "What to remind you about",
+    time = "When send reminder e.g. 30m, 2h, 1d"
+)
+async def remind(interaction:discord.Interaction, message: str, time: str):
+    # Validate and parse time string
+    units = {"m": "minutes", "h": "hours", "d": "days"}
+
+    if len(time) < 2 or time[-1] not in units:
+        await interaction.response.send_message(
+            "⚠️ Invalid time format. Please format like '30m', '2h' or '1d'.", 
+            ephemeral = True
+            )
+        return
+    try:
+        amount = int(time[:-1])
+    except ValueError:
+        await interaction.response.send_message(
+            "⚠️ Invalid time format. Please format like '30m', '2h' or '1d'.", 
+        )
+        return
+
+    # Build timedelta
+    unit_key = units[time[-1]]
+    delta = timedelta(**{unit_key: amount})
+
+    # Computes as a formatted UTC time
+    remind_at = (datetime.utcnow() + delta).strftime("%Y-%m-%d %H:%M:%S")
+
+    # Save and confirm
+    reminder_id = await add_reminder(str(interaction.user.id), message, remind_at)
+    await interaction.response.send_message(
+        f"⏰ Reminder set: **{message}** for **{amount}{time}** from now",
+        ephemeral=True
+    )
 
 bot.run(TOKEN)
