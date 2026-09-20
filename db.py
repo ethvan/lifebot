@@ -107,7 +107,7 @@ async def add_reminder(user_id: str, message: str, remind_at: str):
         await db.commit()
         return new_id
 
-async def get_due_reminders(user_id: str, message: str, remind_at: str):
+async def get_due_reminders():
     async with aiosqlite.connect(DB_PATH) as db:
         async with db.execute(
             "SELECT id, user_id, message FROM reminders WHERE remind_at <= DATETIME('now')"
