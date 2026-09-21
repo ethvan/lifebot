@@ -203,6 +203,7 @@ async def weather(interaction: discord.Interaction, city: str):
     except Exception as e:
         print(f"Weather error: {e}")
         await interaction.followup.send("❌ Something went wrong fetching the weather.")
-    
+
+bot.tree.add_command(remind_group)
 bot.tree.add_command(todo_group)
 bot.run(TOKEN)
