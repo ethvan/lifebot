@@ -3,7 +3,7 @@ import discord
 from discord import app_commands
 from discord.ext import commands
 from dotenv import load_dotenv
-from db import init_db, add_todo, list_todos, complete_todo, delete_todo, add_reminder, get_due_reminders, delete_reminder
+from db import init_db, add_todo, list_todos, complete_todo, delete_todo, add_reminder, get_due_reminders, delete_reminder, list_reminders
 from datetime import datetime, timedelta
 from discord.ext import tasks
 import aiohttp
@@ -80,8 +80,11 @@ async def delete_task(interaction:discord.Interaction, todo_id: int):
     else:
         await interaction.response.send_message(f"🗑️ Deleted Task #{todo_id}: {task}!", ephemeral = True)
 
+# Remind Commands
+remind_group = app_commands.Group(name = "remind", description = "Manage your reminders")
+
 # Sets a Reminder
-@bot.tree.command(name="remind", description = "⏰ Set a reminder")
+@remind_group.command(name="set", description = "⏰ Set a reminder")
 @app_commands.describe(
     message = "What to remind you about",
     time = "When send reminder e.g. 30m, 2h, 1d"
@@ -129,7 +132,41 @@ async def reminder_loop():
         except Exception as e:
             print(f"Failed to message {user_id}: {e}")
 
-        await delete_reminder(reminder_id)
+        await delete_reminder(user_id, reminder_id)
+
+# Shows a list of reminders
+@remind_group.command(name = "list", description = "Lists all upcoming reminders")
+async def remind_list(interaction:discord.Interaction):
+    rows = await list_reminders(str(interaction.user.id))
+
+    if not rows:
+        await interaction.response.send_message(
+            "Use /remind set to set a reminder!", 
+            ephemeral=True
+            )
+        return
+
+    lines = []
+    for rid, message, remind_at in rows:
+        lines.append(f"⏰ [#{rid}] {remind_at} UTC: {message}")
+        
+    await interaction.response.send_message("\n".join(lines), ephemeral=True)
+
+# Delete a Reminder
+@remind_group.command(name = "delete", description = "Delete a reminder")
+@app_commands.describe(rid="Reminder ID you want to delete")
+async def remind_delete(interaction:discord.Interaction, rid: int):
+    reminder = await delete_reminder(str(interaction.user.id), rid)
+    if not reminder:
+        await interaction.response.send_message(
+            f"❌ No reminder found with ID #{rid}!", 
+            ephemeral=True
+            )
+    else:
+        await interaction.response.send_message(
+            f"🗑️ Deleted reminder #{rid}!", 
+            ephemeral=True
+        )
 
 # Weather
 @bot.tree.command(name = "weather", description = "🌤️ Get current weather for a city")

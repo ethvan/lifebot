@@ -114,7 +114,19 @@ async def get_due_reminders():
         ) as cursor:
             return await cursor.fetchall()
 
-async def delete_reminder(reminder_id: int):
+async def list_reminders(user_id: str):
     async with aiosqlite.connect(DB_PATH) as db:
-        await db.execute("DELETE FROM reminders WHERE id = ?", (reminder_id,))
+        async with db.execute(
+            "SELECT id, message FROM reminders WHERE user_id = ? ORDER BY remind_at",
+            (user_id,)
+        ) as cursor:
+            return await cursor.fetchall()
+
+async def delete_reminder(user_id: str, reminder_id: int):
+    async with aiosqlite.connect(DB_PATH) as db:
+        cursor = await db.execute(
+            "DELETE FROM reminders WHERE user_id = ? AND id = ?", 
+            (user_id, reminder_id)
+            )
         await db.commit()
+        return cursor.rowcount > 0
