@@ -117,7 +117,7 @@ async def get_due_reminders():
 async def list_reminders(user_id: str):
     async with aiosqlite.connect(DB_PATH) as db:
         async with db.execute(
-            "SELECT id, message FROM reminders WHERE user_id = ? ORDER BY remind_at",
+            "SELECT id, message, remind_at FROM reminders WHERE user_id = ? ORDER BY remind_at",
             (user_id,)
         ) as cursor:
             return await cursor.fetchall()
