@@ -6,12 +6,14 @@ A Discord bot for creating and managing a personal to-do list, with persistent s
 
 ## Features
 
-- `/todo_add` - Add a task to your list
-- `/todo_list` - Show all of your tasks with their IDs and completion status
-- `/mark_done` - Mark a task as completed by its ID
-- `/delete_task` - Delete a task from the list by its ID
+- `/todo add` - Add a task to your list
+- `/todo list` - Show all of your tasks with their IDs and completion status
+- `/todo done` - Mark a task as completed by its ID
+- `/todo delete` - Delete a task from the list by its ID
 - `/ping` - Health check to confirm the bot is online
-- `/remind` - Set a reminder (`/remind message:take a break time:30m`); the bot DMs you when time is up
+- `/remind set` - Set a reminder (`/remind set message:take a break time:30m`); the bot DMs you when time is up
+- `/remind list` - Lists all upcoming reminders
+- `/remind delete` - Delete an upcoming reminder
 - `/weather` - Tells you the current weather for a city
 
 All replies are ephemeral(only the user who ran the command sees them).
@@ -65,13 +67,15 @@ All replies are ephemeral(only the user who ran the command sees them).
     python bot.py
     ```
 
-    You should see `LifeBot#8795 online...`. Then type `/todo_add` in Discord to test.
+    You should see `LifeBot#8795 online...`. Then type `/todo add` in Discord to test.
 
-## Future Improvements
+## What I Learned
 
-- Add habit tracking with daily streaks
-- Migrate slash command names to command groups so `/todo add` uses a space instead of an underscore
-- Add tests for the database layer
+- **SQL in practice** — Designing schemas, writing `SELECT`/`INSERT`/`UPDATE`/`DELETE` queries, and handling edge cases (like "not found" vs. "already done")
+- **Async Python** — Using `async`/`await` throughout taught me why asynchronous code matters for network I/O, and how to structure a program that stays responsive while waiting on external services.
+- **Background tasks** — Used `discord.ext.tasks` to run a loop every 30 seconds, querying for due reminders and sending DMs. Learned about idempotency and why fired reminders must be deleted from the DB to avoid repeat fires.
+- **Discord's API model** — Slash commands, command groups, interaction responses, ephemeral replies, and the WebSocket event loop all work together in a specific way.
+- **External APIs** — Chained two calls to Open-Meteo (geocoding → weather) and handled the "city not found" case where the API returns no results key.
 
 ## License
 
