@@ -69,10 +69,8 @@ All replies are ephemeral(only the user who ran the command sees them).
 
 ## Future Improvements
 
-✅ Add a `/remind` command with background scheduling using `discord.ext.tasks`
 - Add habit tracking with daily streaks
 - Migrate slash command names to command groups so `/todo add` uses a space instead of an underscore
-✅ Deploy to Railway for 24/7 uptime
 - Add tests for the database layer
 
 ## License
