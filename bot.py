@@ -29,20 +29,23 @@ async def on_ready():
 async def ping(interaction: discord.Interaction):
     await interaction.response.send_message("I'm alive!")
 
+# Todo Commands
+todo_group = app_commands.Group(name="todo", description = "Manage your todo list")
+
 # Add Item or Create Todo List
-@bot.tree.command(name="todo_add", description = "Adds an item to the todo list")
+@todo_group.command(name="add", description = "Adds an item to the todo list")
 @app_commands.describe(task = "Task you want to add to the list")
 async def todo_add(interaction: discord.Interaction, task: str):
     await add_todo(str(interaction.user.id), task)
     await interaction.response.send_message(f"Added {task} to the list.", ephemeral = True)
 
 # Print Todo List
-@bot.tree.command(name="todo_list", description = "Prints your current todo list")
+@todo_group.command(name="todo_list", description = "Prints your current todo list")
 async def todo_list(interaction: discord.Interaction):
     rows = await list_todos(str(interaction.user.id))
 
     if not rows:
-        await interaction.response.send_message("Use /todo_add to add tasks to your list!", ephemeral=True)
+        await interaction.response.send_message("Use /todo add to add tasks to your list!", ephemeral=True)
         return
 
     lines = []
@@ -53,7 +56,7 @@ async def todo_list(interaction: discord.Interaction):
     await interaction.response.send_message("\n".join(lines), ephemeral=True)
 
 # Marks Task as Done
-@bot.tree.command(name="mark_done", description = "Mark your task as complete")
+@todo_group.command(name="mark_done", description = "Mark your task as complete")
 @app_commands.describe(todo_id = "Task ID you want to mark as complete")
 async def mark_done(interaction: discord.Interaction, todo_id: int):
     status = await complete_todo(str(interaction.user.id), todo_id)
@@ -68,7 +71,7 @@ async def mark_done(interaction: discord.Interaction, todo_id: int):
         await interaction.response.send_message(f"❌ No task found with ID #{todo_id}!", ephemeral=True)
 
 # Deletes a Task
-@bot.tree.command(name="delete_task", description = "Delete a task")
+@todo_group.command(name="delete_task", description = "Delete a task")
 @app_commands.describe(todo_id = "Task ID you want to delete")
 async def delete_task(interaction:discord.Interaction, todo_id: int):
     task = await delete_todo(str(interaction.user.id), todo_id)
