@@ -40,7 +40,7 @@ async def todo_add(interaction: discord.Interaction, task: str):
     await interaction.response.send_message(f"Added {task} to the list.", ephemeral = True)
 
 # Print Todo List
-@todo_group.command(name="todo_list", description = "Prints your current todo list")
+@todo_group.command(name="list", description = "Prints your current todo list")
 async def todo_list(interaction: discord.Interaction):
     rows = await list_todos(str(interaction.user.id))
 
@@ -56,7 +56,7 @@ async def todo_list(interaction: discord.Interaction):
     await interaction.response.send_message("\n".join(lines), ephemeral=True)
 
 # Marks Task as Done
-@todo_group.command(name="mark_done", description = "Mark your task as complete")
+@todo_group.command(name="done", description = "Mark your task as complete")
 @app_commands.describe(todo_id = "Task ID you want to mark as complete")
 async def mark_done(interaction: discord.Interaction, todo_id: int):
     status = await complete_todo(str(interaction.user.id), todo_id)
@@ -71,7 +71,7 @@ async def mark_done(interaction: discord.Interaction, todo_id: int):
         await interaction.response.send_message(f"❌ No task found with ID #{todo_id}!", ephemeral=True)
 
 # Deletes a Task
-@todo_group.command(name="delete_task", description = "Delete a task")
+@todo_group.command(name="delete", description = "Delete a task")
 @app_commands.describe(todo_id = "Task ID you want to delete")
 async def delete_task(interaction:discord.Interaction, todo_id: int):
     task = await delete_todo(str(interaction.user.id), todo_id)
