@@ -167,5 +167,5 @@ async def weather(interaction: discord.Interaction, city: str):
         print(f"Weather error: {e}")
         await interaction.followup.send("❌ Something went wrong fetching the weather.")
     
-
+bot.tree.add_command(todo_group)
 bot.run(TOKEN)
